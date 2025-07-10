@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* 工业风格自定义 */
+.shadow-industrial {
+  box-shadow: 0 2px 8px 0 #222a36, 0 1.5px 0 0 #444 inset;
+}
+.drop-shadow-industrial {
+  filter: drop-shadow(0 1px 0 #222a36) drop-shadow(0 0.5px 0 #444);
+}

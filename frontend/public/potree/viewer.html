@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="utf-8">
+  <title>Potree Viewer</title>
+  <link rel="stylesheet" type="text/css" href="./potree.css">
+  <link rel="stylesheet" type="text/css" href="./libs/jquery-ui/jquery-ui.min.css">
+  <link rel="stylesheet" type="text/css" href="./libs/openlayers3/ol.css">
+  <link rel="stylesheet" type="text/css" href="./libs/spectrum/spectrum.css">
+  <link rel="stylesheet" href="./libs/jstree/themes/mixed/style.min.css">
+  <style>
+    html, body { margin:0; padding:0; width:100vw; height:100vh; overflow:hidden; }
+    #potree_container { width:100vw; height:100vh; }
+    #potree_render_area { width:100vw; height:100vh; }
+  </style>
+</head>
+<body>
+  <div id="potree_container">
+    <div id="potree_render_area"></div>
+    <div id="potree_sidebar_container"></div>
+  </div>
+  <script src="./libs/proj4/proj4.js"></script>
+  <script src="./libs/tween/tween.min.js"></script>
+  <script src="./libs/jquery/jquery-3.1.1.min.js"></script>
+  <script src="./libs/spectrum/spectrum.js"></script>
+  <script src="./libs/jquery-ui/jquery-ui.min.js"></script>
+  <script src="./libs/jstree/jstree.min.js"></script>
+  <script src="./libs/d3/d3.min.js"></script>
+  <script src="./libs/other/BinaryHeap.js"></script>
+  <script src="./potree.js"></script>
+  <script src="./libs/i18next/i18next.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // 1. 初始化 Viewer，传入 potree_container
+      let viewer = new Potree.Viewer(document.getElementById("potree_render_area"));
+      viewer.setEDLEnabled(true);
+      viewer.setFOV(60);
+      viewer.setPointBudget(1_000_000);
+      viewer.loadSettingsFromURL();
+
+      // 2. 加载 GUI（工具栏、侧边栏等）
+      viewer.loadGUI(() => {
+        viewer.setLanguage('zh'); // 先注释掉
+        // 3. 加载点云
+        Potree.loadPointCloud("/pointclouds/lion_takanawa/cloud.js", "lion_takanawa", e => {
+          viewer.scene.addPointCloud(e.pointcloud);
+          viewer.fitToScreen();
+        });
+      });
+    });
+  </script>
+</body>
+</html>
